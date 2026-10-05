@@ -1,0 +1,11 @@
+Why is a stack the right choice for undo/redo?
+
+A stack follows Last-In, First-Out (LIFO) order, which matches how undo works. When I undo, I expect the most recent action to be reversed first, and the top of the stack always holds that action. Popping it off the undo stack and pushing it onto the redo stack keeps both histories in the correct order, so redo restores actions in the reverse order they were undone. Clearing the redo stack when a new action is performed also makes sense, because the old "future" no longer applies once the history changes.
+
+Why is a queue better suited for the help desk?
+
+A queue follows First-In, First-Out (FIFO) order, which is how a fair waiting line works. The customer who arrived first should be helped first. Enqueue adds new customers at the rear and dequeue removes them from the front, so nobody gets skipped. A stack would be unfair here because the newest customer would always be helped first while earlier customers kept waiting.
+
+How do your implementations differ from Python's built-in lists?
+
+My Stack and Queue are built from linked Node objects instead of a Python list. Each node stores a value and a pointer to the next node, and the classes only track the top (for the stack) or the front and rear (for the queue). This means push, pop, enqueue and dequeue all run in constant time, O(1), because they only update a few pointers. With a built-in list, removing from the front with pop(0) is O(n), since every remaining element has to shift over. My classes also limit what you can do: there is no indexing, slicing or inserting in the middle, which enforces the correct LIFO or FIFO behavior. The trade-off is that printing or searching requires walking through the nodes one at a time.
